@@ -36,6 +36,11 @@
     // result link selector
     links:  'h3.r a.l',
 
+    // first page link
+    home: function() {
+      return document.querySelector('#tsf input.lsb');
+    },
+
     // prev page link
     prev: function() {
       var els = document.querySelectorAll('a.pn');
@@ -55,6 +60,11 @@
     // result link selector
     links:  '#results div.sb_tlst h3 a',
 
+    // first page link
+    home: function() {
+      return document.querySelector('#sb_form_go');
+    },
+
     // prev page link
     prev: function() {
       return document.querySelector('a.sb_pagP');
@@ -71,6 +81,11 @@
 
     // result link selector
     links:  '#web ol li h3 a',
+
+    // first page link
+    home: function() {
+      return document.querySelector('#sbx input.sbb');
+    },
 
     // prev page link
     prev: function() {
@@ -128,6 +143,13 @@
   }
 
   /**
+   * next - go to first page of links.
+   */
+  function home() {
+    click(engine.home());
+  }
+
+  /**
    * jump - select Nth link on page.
    */
   function jump(ofs) {
@@ -166,6 +188,8 @@
         prev();
       } else if (kc == '.'.charCodeAt(0)) {
         next();
+      } else if (kc == '<'.charCodeAt(0)) {
+        home();
       } else {
         var o = kc - '0'.charCodeAt(0);
 
