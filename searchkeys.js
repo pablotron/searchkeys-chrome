@@ -1,6 +1,67 @@
 (function () {
+  // list of supported search engines
+  var SEARCH_ENGINES = [{
+    // engine name and hostname match
+    name:   'google',
+    match:  /google\.com/,
+
+    // css selector for result links
+    links:  'h3.r a.l',
+
+    // get prev page link (or null if it doesn't exist)
+    prev: function() {
+      var els = document.querySelectorAll('a.pn');
+      return (els.length > 1) ? els[0] : null;
+    },
+
+    // get next page link (or null if it doesn't exist)
+    next: function() {
+      var els = document.querySelectorAll('a.pn');
+      return (els.length > 0) ? els[els.length - 1] : null;
+    },
+  }, {
+    // engine name and hostname match
+    name:   'bing',
+    match:  /bing\.com/,
+
+    // css selector for result links
+    links:  '#results div.sb_tlst h3 a',
+
+    // get prev page link (or null if it doesn't exist)
+    prev: function() {
+      var els = document.querySelectorAll('a.sb_pagP');
+      return (els.length > 0) ? els[0] : null;
+    },
+
+    // get next page link (or null if it doesn't exist)
+    next: function() {
+      var els = document.querySelectorAll('a.sb_pagN');
+      return (els.length > 0) ? els[0] : null;
+    }
+  }, {
+    // engine name and hostname match
+    name:   'yahoo',
+    match:  /search\.yahoo\.com/,
+
+    // css selector for result links
+    links:  '#web ol li h3 a',
+
+    // get prev page link (or null if it doesn't exist)
+    prev: function() {
+      var els = document.querySelectorAll('a#pg-prev');
+      return (els.length > 0) ? els[0] : null;
+    },
+
+    // get next page link (or null if it doesn't exist)
+    next: function() {
+      var els = document.querySelectorAll('a#pg-next');
+      return (els.length > 0) ? els[0] : null;
+    }
+  }];
+
   // "global" state
-  var active = false,
+  var engine,
+      active = false,
       links = [];
 
   /******************/
@@ -11,6 +72,10 @@
    * click - click selected element.
    */
   function click(el) {
+    // handle null elements
+    if (!el)
+      return;
+
     // build click event
     var ev = document.createEvent('MouseEvents');
     ev.initEvent('click', true, false);
@@ -28,20 +93,14 @@
    * prev - go to previous page of links.
    */
   function prev() {
-    var els = document.querySelectorAll('a.pn');
-
-    if (els.length > 1)
-      click(els[0]);
+    click(engine.prev());
   }
 
   /**
    * next - go to next page of links.
    */
   function next() {
-    var els = document.querySelectorAll('a.pn');
-
-    if (els.length > 0)
-      click(els[els.length - 1]);
+    click(engine.next());
   }
 
   /**
@@ -71,7 +130,7 @@
 
     // monitor keypress events for navigation keys
     keypress: function(ev) {
-      // skip keypress if we're focused on a text field or a 
+      // skip keypress if we're focused on a text field or a
       // modifier key is pressed
       if (!active || ev.altKey || ev.metaKey || ev.ctrlKey)
         return;
@@ -118,13 +177,40 @@
   }
 
   /**
+   * init_engine - find matching engine for current page.
+   */
+  function init_engine() {
+    var i, l, E = ENGINES;
+
+    // find matching search engine
+    for (i = 0, l = E.length; i < l; i++) {
+      if (location.host.match(E[i].match)) {
+        // save engine
+        engine = E[i];
+
+        // return success
+        return true;
+      }
+    }
+
+    // no matching search engine found; return failure
+    return false;
+  }
+
+  /**
    * init - find navigation links and bind them to keys
    */
   function init() {
     var i, l, els;
 
+    // init engine
+    if (!init_engine())
+      return;
+
+    // console.log('engine = ' + engine.name);
+
     // get list of search result links
-    els = document.querySelectorAll('h3.r a.l');
+    els = document.querySelectorAll(engine.links);
 
     // get number of search results on this page
     l = (els.length < 10) ? els.length : 10;
