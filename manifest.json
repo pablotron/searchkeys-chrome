@@ -1,12 +1,13 @@
 {
   "name": "Chrome Search Keys",
   "version": "1.0",
-  "description": "Select search results by number and navigate pages of search results using ',' and '.'.",
+  "description": "Select search results by number and navigate search result pages using ',' and '.'. Supports Google, Bing, and Yahoo.",
 
   "content_scripts": [{
     "matches": [
       "http://www.google.com/search*",
       "https://www.google.com/search*",
+
 
       "http://www.bing.com/search*",
       "https://www.bing.com/search*",

@@ -1,58 +1,58 @@
 (function () {
   // list of supported search engines
   var SEARCH_ENGINES = [{
-    // engine name and hostname match
+    // name and hostname match
     name:   'google',
     match:  /google\.com/,
 
-    // css selector for result links
+    // result link selector
     links:  'h3.r a.l',
 
-    // get prev page link (or null if it doesn't exist)
+    // prev page link
     prev: function() {
       var els = document.querySelectorAll('a.pn');
       return (els.length > 1) ? els[0] : null;
     },
 
-    // get next page link (or null if it doesn't exist)
+    // next page link
     next: function() {
       var els = document.querySelectorAll('a.pn');
       return (els.length > 0) ? els[els.length - 1] : null;
     },
   }, {
-    // engine name and hostname match
+    // name and hostname match
     name:   'bing',
     match:  /bing\.com/,
 
-    // css selector for result links
+    // result link selector
     links:  '#results div.sb_tlst h3 a',
 
-    // get prev page link (or null if it doesn't exist)
+    // prev page link
     prev: function() {
       var els = document.querySelectorAll('a.sb_pagP');
       return (els.length > 0) ? els[0] : null;
     },
 
-    // get next page link (or null if it doesn't exist)
+    // next page link
     next: function() {
       var els = document.querySelectorAll('a.sb_pagN');
       return (els.length > 0) ? els[0] : null;
     }
   }, {
-    // engine name and hostname match
+    // name and hostname match
     name:   'yahoo',
     match:  /search\.yahoo\.com/,
 
-    // css selector for result links
+    // result link selector
     links:  '#web ol li h3 a',
 
-    // get prev page link (or null if it doesn't exist)
+    // prev page link
     prev: function() {
       var els = document.querySelectorAll('a#pg-prev');
       return (els.length > 0) ? els[0] : null;
     },
 
-    // get next page link (or null if it doesn't exist)
+    // next page link
     next: function() {
       var els = document.querySelectorAll('a#pg-next');
       return (els.length > 0) ? els[0] : null;
@@ -160,17 +160,24 @@
   };
 
   /**
-   * add - add link to list of links
+   * tag - mark specified link with navigation label
    */
-  function add(el, i) {
-    var e = document.createElement('span'),
-        k = (i + 1) % 10;
+  function tag(el, k) {
+    var e = document.createElement('span');
 
     // update tmp element
     e.innerHTML = "<span class='search-key'>" + k + "</span>";
 
     // add tmp element to dom
     el.parentNode.appendChild(e);
+  }
+
+  /**
+   * add - add link to list of links
+   */
+  function add(el, i) {
+    // mark link
+    tag(el, (i + 1) % 10);
 
     // add link to list of links
     links.push(el);
@@ -180,7 +187,7 @@
    * init_engine - find matching engine for current page.
    */
   function init_engine() {
-    var i, l, E = ENGINES;
+    var i, l, E = SEARCH_ENGINES;
 
     // find matching search engine
     for (i = 0, l = E.length; i < l; i++) {
@@ -221,9 +228,19 @@
 
     // if we had matches, then bind event handlers
     if (l > 0) {
+      var e;
+
       // bind to relevant event handlers
       for (var k in CALLBACKS)
         document.addEventListener(k, CALLBACKS[k], true);
+
+      // mark prev link
+      if (e = engine.prev())
+        tag(e, ',');
+
+      // mark next link
+      if (e = engine.next())
+        tag(e, '.');
 
       // enable key monitoring
       active = true;
