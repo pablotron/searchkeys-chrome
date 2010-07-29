@@ -3,7 +3,7 @@
   var SEARCH_ENGINES = [{
     // name and hostname match
     name:   'google',
-    match:  /google\.com/,
+    match:  /www\.google\./,
 
     // result link selector
     links:  'h3.r a.l',
