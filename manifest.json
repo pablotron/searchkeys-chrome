@@ -1,7 +1,7 @@
 {
   "name": "Chrome Search Keys",
   "version": "1.1",
-  "description": "Select search results by number and navigate search result pages using ',' and '.'. Supports Google, Bing, and Yahoo.",
+  "description": "Numeric hotkey navigation for Google, Bing, and Yahoo search result pages.",
 
   "icons": {
     "16":  "icons/16.png",
