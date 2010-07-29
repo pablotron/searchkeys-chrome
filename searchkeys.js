@@ -29,14 +29,12 @@
 
     // prev page link
     prev: function() {
-      var els = document.querySelectorAll('a.sb_pagP');
-      return (els.length > 0) ? els[0] : null;
+      return document.querySelector('a.sb_pagP');
     },
 
     // next page link
     next: function() {
-      var els = document.querySelectorAll('a.sb_pagN');
-      return (els.length > 0) ? els[0] : null;
+      return document.querySelector('a.sb_pagN');
     }
   }, {
     // name and hostname match
@@ -48,14 +46,12 @@
 
     // prev page link
     prev: function() {
-      var els = document.querySelectorAll('a#pg-prev');
-      return (els.length > 0) ? els[0] : null;
+      return document.querySelector('a#pg-prev');
     },
 
     // next page link
     next: function() {
-      var els = document.querySelectorAll('a#pg-next');
-      return (els.length > 0) ? els[0] : null;
+      return document.querySelector('a#pg-next');
     }
   }];
 
