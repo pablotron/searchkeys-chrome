@@ -1,7 +1,7 @@
 {
-  "name": "Chrome SearchKeys",
+  "name": "Chrome Search Keys",
   "version": "1.0",
-  "description": "The first extension that I made.",
+  "description": "Select search results by number and navigate pages of search results using ',' and '.'.",
 
   "content_scripts": [{
     "matches": [
@@ -12,6 +12,6 @@
     "run_at": "document_end",
 
     "css": ["style.css"],
-    "js": ["searchkeys.js"]
+    "js":  ["searchkeys.js"]
   }]
 }

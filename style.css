@@ -1,13 +1,24 @@
 span.search-key {
   border: 1px solid #333;
+  color: #333;
 
   margin-left: 0.5em;
   margin-right: 0.5em;
 
-  padding: 0.1em 0.2em 0.1em 0.2em;
+  padding: 0.1em 0.4em 0.1em 0.4em;
 
   font-weight: bold;
   font-size: smaller;
 
   background-color: #ffd;
+
+  -webkit-border-radius: 0.3em;
+
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0.0, #ffd),
+    color-stop(1.0, #ddd)
+  );
 }
