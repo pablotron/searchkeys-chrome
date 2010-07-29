@@ -1,0 +1,17 @@
+{
+  "name": "Chrome SearchKeys",
+  "version": "1.0",
+  "description": "The first extension that I made.",
+
+  "content_scripts": [{
+    "matches": [
+      "http://www.google.com/search*",
+      "https://www.google.com/search*"
+    ],
+
+    "run_at": "document_end",
+
+    "css": ["style.css"],
+    "js": ["searchkeys.js"]
+  }]
+}
