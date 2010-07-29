@@ -1,6 +1,6 @@
 {
   "name": "Chrome Search Keys",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Select search results by number and navigate search result pages using ',' and '.'. Supports Google, Bing, and Yahoo.",
 
   "icons": {
