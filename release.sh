@@ -6,5 +6,9 @@ if [ "x$1" = 'x' ]; then
 fi
 
 dst=~/src/releases/searchkeys-chrome-"$1"
-echo "building $dest"
-exec hg archive -r "$1" "$dst"
+
+echo "building $dst"
+hg archive -r "$1" "$dst"
+
+echo "building $dst.zip"
+exec hg archive -t zip -r "$1" "$dst.zip"
